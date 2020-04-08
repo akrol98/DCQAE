@@ -1,0 +1,79 @@
+{
+  "manifest_version": 2,
+  "name": "Daily Crown Quiz Answering Extension",
+  "description": "Automatically answers all 120 daily quiz questions. Just login and complete the captchas at the end of each quiz.",
+  "version": "5.0.0",
+  "options_page": "options/options.html",
+  "icons": {
+    "128": "icons/icon_128.png"
+  },
+  "background": {
+    "page": "background.html"
+  },
+  "browser_action": {
+    "default_icon": "icons/icon_19.png"
+  },
+  "permissions": [
+    "activeTab",
+    "storage"
+  ],
+  "content_scripts": [
+    {
+      "matches": [
+        "https://www.freekigames.com/wizard101-adventuring-trivia",
+        "https://www.freekigames.com/wizard101-conjuring-trivia",
+        "https://www.freekigames.com/wizard101-magical-trivia",
+        "https://www.freekigames.com/wizard101-marleybone-trivia",
+        "https://www.freekigames.com/wizard101-mystical-trivia",
+        "https://www.freekigames.com/wizard101-spellbinding-trivia",
+        "https://www.freekigames.com/wizard101-spells-trivia",
+        "https://www.freekigames.com/pirate101-valencia-trivia",
+        "https://www.freekigames.com/wizard101-wizard-city-trivia",
+        "https://www.freekigames.com/wizard101-zafaria-trivia"
+      ],
+      "js": [
+        "quizScript.js"
+      ]
+    },
+    {
+      "matches": [
+        "https://www.freekigames.com/",
+        "https://www.freekigames.com/?reset=*"
+      ],
+      "js": [
+        "login.js"
+      ]
+    },
+    {
+      "matches": [
+        "https://www.freekigames.com/freegameslanding.freekigames.quizform.quizform"
+      ],
+      "js": [
+        "error429.js"
+      ]
+    },
+    {
+      "matches": [
+        "https://www.crowns.krolpowered.com/too-many-requests-satisfaction/"
+      ],
+      "js": [
+        "waitScreen.js"
+      ]
+    },
+    {
+      "matches": [
+        "https://www.crowns.krolpowered.com/too-many-requests/"
+      ],
+      "js": [
+        "429Wait.js"
+      ]
+    }
+  ],
+  "web_accessible_resources": [
+    "sounds/beep.wav",
+    "sounds/magical.wav",
+    "sounds/sonar.wav",
+    "sounds/squeaky.wav",
+    "sounds/windows.wav"
+  ]
+}

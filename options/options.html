@@ -1,0 +1,119 @@
+<head>
+    <script src="options.js"></script>
+    <link rel="stylesheet" type="text/css" href="options.css">
+    <title> Daily Crown Quiz Answering Extension - Options </title>
+</head>
+
+<body style="overflow: hidden;">
+    <div id="loadingIcon" style="margin:auto;height:100%;width:100%;">
+        <div id="loader"></div>
+    </div>
+    <div id="optionsPage" style="margin:auto;height:100%;width:100%;display:none" class="animate-bottom">
+        <div id="container" class="container">
+            <div id="container-header" class="container-header">
+                <div style="margin: auto; flex: 1;text-align: center;"><img class="icon" src="../icons/icon_128.png">
+                </div>
+                <div style="flex: 15; text-align: center">
+                    <p class="title">Daily Crown Quiz Answering Extension</p>
+                </div>
+                <div style="margin: auto; flex: 1;text-align: center;"><button id="close" class="close">X</button></div>
+            </div>
+            <div id="container-body" class="container-body">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Total Crowns Earned: <span id="totalCrowns"></span></th>
+                        </tr>
+                    </thead>
+                </table>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Audio</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><label class="containerCheckMark"><input id="sound" type="checkbox" checked="true">
+                                    <span class="checkmark"></span>Play a sound at the end of a quiz</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Select an audio file to use:
+                                <select id="soundFile"
+                                    style="border: none;border-radius: 4px;font-size: 1em; padding-left: 5px;">
+                                    <option value="beep.wav">Beep</option>
+                                    <option value="magic.wav">Magic</option>
+                                    <option value="sonar.wav">Sonar</option>
+                                    <option value="squeaky.wav">Squeaky</option>
+                                    <option value="windows.wav">Windows</option>
+                                </select><button id="audioTest" class="audioTest">Test Audio</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Answer Selection</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><label class="containerCheckMark"><input id="automaticSelection" type="checkbox"><span
+                                        class="checkmark"></span>Automatically select answers</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><label>Choose a color to highlight answers <input id="color" type="color"
+                                        value="#00b300" style="border: none;"></label></td>
+                        </tr>
+                        <tr>
+                            <td>Select an answer after <input id="timeToWaitQuestion" type="number" value="2"
+                                    class="textInput" min="0" max="60"> seconds. (0-60)
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Too Many Requests Prevention and Handling</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><label class="containerCheckMark"><input id="satisfy" type="checkbox"
+                                        checked="true"><span class="checkmark"></span>Show the Too Many Requests
+                                    Satisfaction page</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Show the Too Many Requests Satisfaction page every <input id="satisfyRate" type="number"
+                                    step="1" value="2" class="textInput" min="1" max="9"> quizzes. (1-9)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Show the Too Many Requests Satisfaction page for <input id="timeToWait" type="number"
+                                    step="1" value="60" min="1" max="999" class="textInput"> seconds. (1-999) </td>
+                        </tr>
+                        <tr>
+                            <td>Show the Too Many Requests Error page for <input id="timeToWait429" type="number"
+                                    step="1" value="30" class="textInput" min="0" max="999"> seconds. (0-999) </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div id="container-footer" class="container-footer">
+                <div style="margin: auto auto auto 30px; flex: 1;text-align: left;"><button id="default"
+                        class="default">Default Settings</button></div>
+                <div id="status" style="flex: 1;margin:auto;text-align: center; font-size: 1em;"></div>
+                <div style="display: flex; flex: 1;">
+                    <div style="margin: auto; flex: 1;text-align: center;"><button id="cancel"
+                            class="cancel">Cancel</button></div>
+                    <div style="margin: auto; flex: 1;text-align: center;"><button id="save" class="save">Save</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
