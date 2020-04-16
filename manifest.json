@@ -32,6 +32,8 @@
         "https://www.freekigames.com/wizard101-zafaria-trivia"
       ],
       "js": [
+        "thirdparty/tesseract.min.js",
+        "captchaSolver.js",
         "quizScript.js"
       ]
     },
