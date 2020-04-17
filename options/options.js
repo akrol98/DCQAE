@@ -79,7 +79,6 @@ function getValues() {
 
   automaticSelection = document.getElementById('automaticSelection').checked;
   solveCaptcha = document.getElementById('solveCaptcha').checked;
-  solve = document.getElementById('sound').checked;
   color = document.getElementById('color').value;
   timeToWaitQuestion = parseInt(document.getElementById('timeToWaitQuestion').value);
 
