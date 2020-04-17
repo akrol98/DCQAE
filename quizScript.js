@@ -1,4 +1,5 @@
 var automaticSelection;
+var solveCaptcha;
 var highlightColor;
 var timeToWaitQuestion;
 var totalCrowns;
@@ -7,9 +8,10 @@ var captchaTask = null;
 
 function getData() {
     return new Promise(function (resolve, reject) {
-        chrome.storage.sync.get(['automaticSelection', 'color', 'timeToWaitQuestion', 'totalCrowns'], function (items) {
+        chrome.storage.sync.get(['automaticSelection', 'solveCaptcha', 'color', 'timeToWaitQuestion', 'totalCrowns'], function (items) {
             console.log(items);
             automaticSelection = items.automaticSelection;
+            solveCaptcha = items.solveCaptcha;
             highlightColor = items.color;
             timeToWaitQuestion = items.timeToWaitQuestion * 1000;
             totalCrowns = items.totalCrowns;
@@ -50,9 +52,10 @@ getData().then(function () {
     }
 
     //Zafaria is the last quiz, we should play our chime
+    //if we've solved all the captchas until now
     var lastQuiz = quizName === "Zafaria";
 
-    if (lastQuiz) {
+    if (lastQuiz && solveCaptcha) {
         chrome.runtime.sendMessage({ greeting: 'playSound' });
     }
 
@@ -71,7 +74,13 @@ getData().then(function () {
     if (rewardText.length > 0 && rewardText[0].innerText[0] == 'Y') {
         document.getElementsByClassName("loginitem")[0].click();
         focusInput();
-        solveCaptcha();
+
+        if (solveCaptcha) {
+            scheduleCaptcha();
+        } else {
+            //We should play a sound to notify the user about the captcha
+            chrome.runtime.sendMessage({ greeting: 'playSound' });
+        }
     } else {
         addCrowns();
 
@@ -166,7 +175,7 @@ function focusInput() {
     }
 }
 
-function solveCaptcha() {
+function scheduleCaptcha() {
     //Captcha task is already running.
     if (captchaTask) {
         return;

@@ -40,7 +40,8 @@ function playSoundFile() {
 
 function onUpdate() {
     chrome.storage.sync.set({
-        automaticSelection: true
+        automaticSelection: true,
+        solveCaptcha: false
     });
 }
 
@@ -51,6 +52,7 @@ function createUser() {
             playSound: true,
             soundFile: "windows.wav",
             automaticSelection: true,
+            solveCaptcha: false,
             color: "#00b300",
             timeToWaitQuestion: 2,
             satisfy: true,

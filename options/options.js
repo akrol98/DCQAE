@@ -1,6 +1,7 @@
 var playSound;
 var soundFile;
 var automaticSelection;
+var solveCaptcha;
 var color;
 var timeToWaitQuestion;
 var satisfy;
@@ -13,13 +14,14 @@ var totalCrowns;
 
 function restoreOptions() {
   console.log("Restoring options");
-  chrome.storage.sync.get(['playSound', 'soundFile', 'automaticSelection', 'color', 'timeToWaitQuestion', 'satisfy', 'satisfyRate', 'timeToWait', 'timeToWait429', 'totalCrowns'], function (items) {
+  chrome.storage.sync.get(['playSound', 'soundFile', 'automaticSelection', 'solveCaptcha', 'color', 'timeToWaitQuestion', 'satisfy', 'satisfyRate', 'timeToWait', 'timeToWait429', 'totalCrowns'], function (items) {
     document.getElementById('totalCrowns').innerText = items.totalCrowns;
 
     document.getElementById('sound').checked = items.playSound;
     document.getElementById('soundFile').value = items.soundFile;
 
     document.getElementById('automaticSelection').checked = items.automaticSelection;
+    document.getElementById('solveCaptcha').checked = items.solveCaptcha;
     document.getElementById('color').value = items.color;
     document.getElementById('timeToWaitQuestion').value = items.timeToWaitQuestion;
 
@@ -44,6 +46,7 @@ function setDefaultOptions() {
   document.getElementById('soundFile').value = "windows.wav";
 
   document.getElementById('automaticSelection').checked = true;
+  document.getElementById('solveCaptcha').checked = false;
   document.getElementById('color').value = "#00b300";
   document.getElementById('timeToWaitQuestion').value = 2;
 
@@ -75,6 +78,8 @@ function getValues() {
   soundFile = document.getElementById('soundFile').value;
 
   automaticSelection = document.getElementById('automaticSelection').checked;
+  solveCaptcha = document.getElementById('solveCaptcha').checked;
+  solve = document.getElementById('sound').checked;
   color = document.getElementById('color').value;
   timeToWaitQuestion = parseInt(document.getElementById('timeToWaitQuestion').value);
 
@@ -116,6 +121,7 @@ function saveInformation() {
     playSound: playSound,
     soundFile: soundFile,
     automaticSelection: automaticSelection,
+    solveCaptcha: solveCaptcha,
     color: color,
     timeToWaitQuestion: timeToWaitQuestion,
     satisfy: satisfy,
