@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "Daily Crown Quiz Answering Extension",
   "description": "Automatically answers all 120 daily quiz questions. Just login and complete the captchas at the end of each quiz.",
-  "version": "6.0.0",
+  "version": "5.0.0",
   "options_page": "options/options.html",
   "icons": {
     "128": "icons/icon_128.png"
@@ -32,8 +32,6 @@
         "https://www.freekigames.com/wizard101-zafaria-trivia"
       ],
       "js": [
-        "thirdparty/tesseract.min.js",
-        "captchaSolver.js",
         "quizScript.js"
       ]
     },

@@ -22,27 +22,10 @@ chrome.runtime.onInstalled.addListener(function (details) {
     }
 });
 
-function playSoundFile() {
-    chrome.storage.sync.get(['playSound', 'soundFile'], function (items) {
-        if (!items.playSound) {
-            return;
-        }
-
-        var sound = new Audio(chrome.runtime.getURL("sounds/" + items.soundFile));
-
-        try {
-            sound.play();
-        } catch (error) {
-            console.log(error);
-        }
-    });
-}
-
 function onUpdate() {
-    chrome.storage.sync.set({
-        automaticSelection: true,
-        solveCaptcha: false
-    });
+        chrome.storage.sync.set({
+            automaticSelection: true
+        });
 }
 
 //Create a user when they first install the extension, use default values
@@ -52,7 +35,6 @@ function createUser() {
             playSound: true,
             soundFile: "windows.wav",
             automaticSelection: true,
-            solveCaptcha: false,
             color: "#00b300",
             timeToWaitQuestion: 2,
             satisfy: true,
@@ -134,9 +116,6 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
             break;
         case "cancelTimer":
             stopCounter();
-            break;
-        case 'playSound':
-            playSoundFile();
             break;
     }
 });

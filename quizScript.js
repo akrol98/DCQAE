@@ -1,17 +1,18 @@
+var playSound;
+var soundFile;
 var automaticSelection;
-var solveCaptcha;
 var highlightColor;
 var timeToWaitQuestion;
 var totalCrowns;
 var quizName;
-var captchaTask = null;
 
 function getData() {
     return new Promise(function (resolve, reject) {
-        chrome.storage.sync.get(['automaticSelection', 'solveCaptcha', 'color', 'timeToWaitQuestion', 'totalCrowns'], function (items) {
+        chrome.storage.sync.get(['playSound', 'soundFile', 'automaticSelection', 'color', 'timeToWaitQuestion', 'totalCrowns'], function (items) {
+            playSound = items.playSound;
+            soundFile = items.soundFile;
             console.log(items);
             automaticSelection = items.automaticSelection;
-            solveCaptcha = items.solveCaptcha;
             highlightColor = items.color;
             timeToWaitQuestion = items.timeToWaitQuestion * 1000;
             totalCrowns = items.totalCrowns;
@@ -21,74 +22,46 @@ function getData() {
 }
 
 getData().then(function () {
-    // Clear captcha task if necessary.
-    if (captchaTask) {
-        clearInterval(captchaTask);
-        captchaTask = null;
-    }
-
-    //Handle too many requests error
+    //get the name of the quiz
     if (document.body.children[0].innerText == "Too Many Requests") {
         chrome.runtime.sendMessage({ greeting: 'error429' });
-        return;
     }
-
-    //If we have no header, we can't parse the page
-    var header = document.getElementsByClassName('h1Header')[0];
-
-    if (!header) {
-        return;
-    }
-
-    //Query the current quiz name
-    quizName = header.innerText.split(' ')[1];
-    chrome.runtime.sendMessage({ greeting: 'setCurrentQuiz', currentQuiz: quizName });
-
-    //If question page, answer questions.
-    //If not question page, Page is either results page or throttle page.
-    if (document.getElementsByClassName('quizQuestion')[0]) {
-        setTimeout(answerQuestion, timeToWaitQuestion);
-        return;
-    }
-
-    //Zafaria is the last quiz, we should play our chime
-    //if we've solved all the captchas until now
-    var lastQuiz = quizName === "Zafaria";
-
-    if (lastQuiz && solveCaptcha) {
-        chrome.runtime.sendMessage({ greeting: 'playSound' });
-    }
-
-    //If throttle page, go to the next quiz.
-    if (document.getElementsByClassName('quizThrottle')[0]) {
-        if (!lastQuiz) {
-            chrome.runtime.sendMessage({ greeting: 'nextQuiz', when: "now" });
+    else if (document.getElementsByClassName('h1Header')[0]) {
+        quizName = document.getElementsByClassName('h1Header')[0].innerText.split(' ')[1];
+        chrome.runtime.sendMessage({ greeting: 'setCurrentQuiz', currentQuiz: quizName });
+        //If it's not a question. Page is either results page or throttle page.
+        if (!document.getElementsByClassName('quizQuestion')[0]) {
+            //if throttle page, go to the next quiz.
+            if (document.getElementsByClassName('quizThrottle')[0] && quizName != "Zafaria")
+                chrome.runtime.sendMessage({ greeting: 'nextQuiz', when: "now" });
+            else {
+                //results page, open the captcha or load the next quiz.
+                if (document.getElementsByClassName('rewardText') && document.getElementsByClassName('rewardText')[0].innerText[0] == 'Y') {
+                    document.getElementsByClassName("loginitem")[0].click();
+                    focusInput();
+                    if (playSound) {
+                        var sound;
+                        sound = new Audio(chrome.runtime.getURL("sounds/" + soundFile));
+                        try {
+                            sound.play();
+                        }
+                        catch (error) {
+                            console.log(error);
+                        }
+                    }
+                }
+                else if (quizName != "Zafaria") {
+                    addCrowns();
+                    chrome.runtime.sendMessage({ greeting: 'nextQuiz' });
+                } else
+                    addCrowns();
+            }
         }
-
-        return;
-    }
-
-    //Results page, open and then solve the captcha or load the next quiz.
-    var rewardText = document.getElementsByClassName('rewardText');
-
-    if (rewardText.length > 0 && rewardText[0].innerText[0] == 'Y') {
-        document.getElementsByClassName("loginitem")[0].click();
-        focusInput();
-
-        if (solveCaptcha) {
-            scheduleCaptcha();
-        } else {
-            //We should play a sound to notify the user about the captcha
-            chrome.runtime.sendMessage({ greeting: 'playSound' });
-        }
-    } else {
-        addCrowns();
-
-        if (!lastQuiz) {
-            chrome.runtime.sendMessage({ greeting: 'nextQuiz' });
+        else {
+            setTimeout(answerQuestion, timeToWaitQuestion);
         }
     }
-});
+})
 
 function addCrowns() {
     console.log(totalCrowns);
@@ -165,34 +138,11 @@ function answerQuestion() {
 function focusInput() {
     var id = setInterval(check, 500);
     function check() {
-        var captcha = document.getElementById('jPopFrame_content').contentDocument.getElementById('captcha');
-
+        var captcha = document.getElementById("jPopFrame_content").contentDocument.getElementById('captcha');
         if (captcha) {
             console.log("focusing");
             clearInterval(id);
             captcha.focus();
-        }
-    }
-}
-
-function scheduleCaptcha() {
-    //Captcha task is already running.
-    if (captchaTask) {
-        return;
-    }
-
-    captchaTask = setInterval(checkCaptcha, timeToWaitQuestion);
-
-    function checkCaptcha() {
-        var captcha = document.getElementById('jPopFrame_content').contentDocument.getElementById('captcha');
-
-        if (captcha) {
-            try {
-                solveCaptchaOnPage();
-            } catch (error) {
-                console.log(error);
-                chrome.runtime.sendMessage({ greeting: 'playSound' });
-            }
         }
     }
 }
