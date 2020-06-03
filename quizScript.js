@@ -11,7 +11,6 @@ function getData() {
         chrome.storage.sync.get(['playSound', 'soundFile', 'automaticSelection', 'color', 'timeToWaitQuestion', 'totalCrowns'], function (items) {
             playSound = items.playSound;
             soundFile = items.soundFile;
-            console.log(items);
             automaticSelection = items.automaticSelection;
             highlightColor = items.color;
             timeToWaitQuestion = items.timeToWaitQuestion * 1000;
@@ -26,8 +25,8 @@ getData().then(function () {
     if (document.body.children[0].innerText == "Too Many Requests") {
         chrome.runtime.sendMessage({ greeting: 'error429' });
     }
-    else if (document.getElementsByClassName('h1Header')[0]) {
-        quizName = document.getElementsByClassName('h1Header')[0].innerText.split(' ')[1];
+    else if (document.getElementsByClassName('contentbox')[0]) {
+        quizName = document.getElementsByClassName('contentbox')[0].innerText.slice(10, -7);
         chrome.runtime.sendMessage({ greeting: 'setCurrentQuiz', currentQuiz: quizName });
         //If it's not a question. Page is either results page or throttle page.
         if (!document.getElementsByClassName('quizQuestion')[0]) {
@@ -38,7 +37,6 @@ getData().then(function () {
                 //results page, open the captcha or load the next quiz.
                 if (document.getElementsByClassName('rewardText') && document.getElementsByClassName('rewardText')[0].innerText[0] == 'Y') {
                     document.getElementsByClassName("loginitem")[0].click();
-                    focusInput();
                     if (playSound) {
                         var sound;
                         sound = new Audio(chrome.runtime.getURL("sounds/" + soundFile));
@@ -105,7 +103,7 @@ function answerQuestion() {
         case 'Valencia':
             answer = valencia(question);
             break;
-        case 'Wizard':
+        case 'Wizard City':
             answer = wizardCity(question);
             break;
         case 'Zafaria':
@@ -131,18 +129,6 @@ function answerQuestion() {
                 document.getElementById('nextQuestion').click();
             }
             break;
-        }
-    }
-}
-
-function focusInput() {
-    var id = setInterval(check, 500);
-    function check() {
-        var captcha = document.getElementById("jPopFrame_content").contentDocument.getElementById('captcha');
-        if (captcha) {
-            console.log("focusing");
-            clearInterval(id);
-            captcha.focus();
         }
     }
 }

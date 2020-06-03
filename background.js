@@ -7,7 +7,7 @@ var currentQuiz;
 var openThisQuiz;
 var time;
 var interval;
-var quizList = ["Adventuring", "Conjuring", "Magical", "Marleybone", "Mystical", "Spellbinding", "Spells", "Valencia", "Wizard", "Zafaria"];
+var quizList = ["Adventuring", "Conjuring", "Magical", "Marleybone", "Mystical", "Spellbinding", "Spells", "Valencia", "Wizard City", "Zafaria"];
 
 //When the extension is installed, check if user already has saved data, create a new user
 chrome.runtime.onInstalled.addListener(function (details) {
@@ -72,7 +72,7 @@ chrome.storage.onChanged.addListener(function (changes) {
 
 //Browser icon clicked, open freekigames
 chrome.browserAction.onClicked.addListener(function () {
-    window.open("https://www.freekigames.com/", "Quiz");
+    window.open("https://www.wizard101.com/quiz/trivia/game/wizard101-trivia", "Quiz");
 });
 
 function getOptions() {
@@ -169,7 +169,7 @@ function openQuiz() {
         case 'Valencia':
             window.open("https://www.freekigames.com/pirate101-valencia-trivia", "Quiz");
             break;
-        case 'Wizard':
+        case 'Wizard City':
             window.open("https://www.freekigames.com/wizard101-wizard-city-trivia", "Quiz");
             break;
         case 'Zafaria':

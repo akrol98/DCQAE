@@ -1,3 +1,2 @@
-if (document.getElementById('loginContainer').textContent.slice(-1) == 't') {
+if (document.getElementById('userNameOverflow').textContent.trim() != "Login")
     chrome.runtime.sendMessage({ greeting: 'startQuiz' });
-}

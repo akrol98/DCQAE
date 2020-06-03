@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "Daily Crown Quiz Answering Extension",
   "description": "Automatically answers all 120 daily quiz questions. Just login and complete the captchas at the end of each quiz.",
-  "version": "5.0.0",
+  "version": "6.0.1",
   "options_page": "options/options.html",
   "icons": {
     "128": "icons/icon_128.png"
@@ -20,16 +20,16 @@
   "content_scripts": [
     {
       "matches": [
-        "https://www.freekigames.com/wizard101-adventuring-trivia",
-        "https://www.freekigames.com/wizard101-conjuring-trivia",
-        "https://www.freekigames.com/wizard101-magical-trivia",
-        "https://www.freekigames.com/wizard101-marleybone-trivia",
-        "https://www.freekigames.com/wizard101-mystical-trivia",
-        "https://www.freekigames.com/wizard101-spellbinding-trivia",
-        "https://www.freekigames.com/wizard101-spells-trivia",
-        "https://www.freekigames.com/pirate101-valencia-trivia",
-        "https://www.freekigames.com/wizard101-wizard-city-trivia",
-        "https://www.freekigames.com/wizard101-zafaria-trivia"
+        "https://www.wizard101.com/quiz/trivia/game/wizard101-adventuring-trivia",
+        "https://www.wizard101.com/quiz/trivia/game/wizard101-conjuring-trivia",
+        "https://www.wizard101.com/quiz/trivia/game/wizard101-magical-trivia",
+        "https://www.wizard101.com/quiz/trivia/game/wizard101-marleybone-trivia",
+        "https://www.wizard101.com/quiz/trivia/game/wizard101-mystical-trivia",
+        "https://www.wizard101.com/quiz/trivia/game/wizard101-spellbinding-trivia",
+        "https://www.wizard101.com/quiz/trivia/game/wizard101-spells-trivia",
+        "https://www.wizard101.com/quiz/trivia/game/pirate101-valencia-trivia",
+        "https://www.wizard101.com/quiz/trivia/game/wizard101-wizard-city-trivia",
+        "https://www.wizard101.com/quiz/trivia/game/wizard101-zafaria-trivia"
       ],
       "js": [
         "quizScript.js"
@@ -37,8 +37,7 @@
     },
     {
       "matches": [
-        "https://www.freekigames.com/",
-        "https://www.freekigames.com/?reset=*"
+        "https://www.wizard101.com/quiz/trivia/game/wizard101-trivia"
       ],
       "js": [
         "login.js"
