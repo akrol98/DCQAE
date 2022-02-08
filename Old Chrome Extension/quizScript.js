@@ -37,11 +37,14 @@ getData().then(function () {
                 //results page, open the captcha or load the next quiz.
                 if (document.getElementsByClassName('rewardText') && document.getElementsByClassName('rewardText')[0].innerText[0] == 'Y') {
                     document.getElementsByClassName("loginitem")[0].click();
+                    // document.getElementsByName("Claim Your Reward")[1].click();
+                    // document.getElementsByClassName("kiaccountsbuttongreen")[0].click();
                     if (playSound) {
                         var sound;
                         sound = new Audio(chrome.runtime.getURL("sounds/" + soundFile));
                         try {
                             sound.play();
+                            document.getElementById('login').click()
                         }
                         catch (error) {
                             console.log(error);
